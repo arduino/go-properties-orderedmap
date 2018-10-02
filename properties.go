@@ -350,7 +350,7 @@ func (m *Map) ExpandPropsInString(str string) string {
 	return str
 }
 
-// Merge merges a Map into this one. Each key/value of the merged Maps replaces
+// Merge merges other Maps into this one. Each key/value of the merged Maps replaces
 // the key/value present in the original Map.
 func (m *Map) Merge(sources ...*Map) *Map {
 	for _, source := range sources {
