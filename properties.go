@@ -379,6 +379,12 @@ func (m *Map) Values() []string {
 	return values
 }
 
+// AsMap return the underlying map[string]string. This is useful if you need to
+// for ... range but without the requirement of the ordered elements.
+func (m *Map) AsMap() map[string]string {
+	return m.kv
+}
+
 // Clone makes a copy of the Map
 func (m *Map) Clone() *Map {
 	clone := NewMap()
