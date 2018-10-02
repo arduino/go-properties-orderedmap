@@ -107,6 +107,16 @@ func NewMap() *Map {
 	}
 }
 
+// NewFromHashmap creates a new Map from the given map[string]string.
+// Insertion order is not preserved.
+func NewFromHashmap(orig map[string]string) *Map {
+	res := NewMap()
+	for k, v := range orig {
+		res.Set(k, v)
+	}
+	return res
+}
+
 // Load reads a properties file and makes a Map out of it.
 func Load(filepath string) (*Map, error) {
 	bytes, err := ioutil.ReadFile(filepath)
