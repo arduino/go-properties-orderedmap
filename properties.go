@@ -1,7 +1,7 @@
 /*
- * This file is part of PropertiesMap library.
+ * This file is part of PropertiesOrderedMap library.
  *
- * Copyright 2017 Arduino AG (http://www.arduino.cc/)
+ * Copyright 2017-2018 Arduino AG (http://www.arduino.cc/)
  *
  * PropertiesMap library is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
