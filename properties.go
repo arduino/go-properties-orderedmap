@@ -361,7 +361,7 @@ func (m *Map) Keys() []string {
 
 // Values returns an array of the values contained in the Map. Duplicated
 // values are repeated in the list accordingly.
-func (m Map) Values() []string {
+func (m *Map) Values() []string {
 	values := make([]string, len(m.o))
 	for i, key := range m.o {
 		values[i] = m.kv[key]
