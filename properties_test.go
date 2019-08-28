@@ -185,3 +185,33 @@ func TestKeysMethod(t *testing.T) {
 	sort.Strings(v)
 	require.Equal(t, "[anothevalue othervalue value value]", fmt.Sprintf("%s", v))
 }
+
+func TestEquals(t *testing.T) {
+	x := NewMap()
+	x.Set("k1", "value")
+	x.Set("k2", "othervalue")
+	x.Set("k3.k4", "anothevalue")
+	x.Set("k5", "value")
+
+	y := NewMap()
+	y.Set("k1", "value")
+	y.Set("k2", "othervalue")
+	y.Set("k3.k4", "anothevalue")
+	y.Set("k5", "value")
+
+	z := NewMap()
+	z.Set("k2", "othervalue")
+	z.Set("k1", "value")
+	z.Set("k3.k4", "anothevalue")
+	z.Set("k5", "value")
+
+	require.True(t, x.Equals(y))
+	require.True(t, y.Equals(x))
+	require.True(t, x.Equals(z))
+	require.True(t, z.Equals(x))
+
+	require.True(t, x.EqualsWithOrder(y))
+	require.True(t, y.EqualsWithOrder(x))
+	require.False(t, x.EqualsWithOrder(z))
+	require.False(t, z.EqualsWithOrder(x))
+}

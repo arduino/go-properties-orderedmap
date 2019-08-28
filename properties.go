@@ -430,9 +430,15 @@ func (m *Map) Clone() *Map {
 }
 
 // Equals returns true if the current Map contains the same key/value pairs of
-// the Map passed as argument with the same order of insertion.
+// the Map passed as argument, the order of insertion does not matter.
 func (m *Map) Equals(other *Map) bool {
-	return reflect.DeepEqual(m, other)
+	return reflect.DeepEqual(m.kv, other.kv)
+}
+
+// EqualsWithOrder returns true if the current Map contains the same key/value pairs of
+// the Map passed as argument with the same order of insertion.
+func (m *Map) EqualsWithOrder(other *Map) bool {
+	return reflect.DeepEqual(m.o, other.o) && reflect.DeepEqual(m.kv, other.kv)
 }
 
 // MergeMapsOfProperties merge the map-of-Maps (obtained from the method FirstLevelOf()) into the
