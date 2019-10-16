@@ -99,6 +99,11 @@ func init() {
 	}
 }
 
+// GetOSSuffix returns the os name used to filter os-specific properties in Load* functions
+func GetOSSuffix() string {
+	return osSuffix
+}
+
 // NewMap returns a new Map
 func NewMap() *Map {
 	return &Map{
