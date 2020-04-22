@@ -1,0 +1,12 @@
+{
+  "additionalFiles": "",
+  "builtInLibrariesFolders": "",
+  "builtInToolsFolders": "",
+  "compiler.optimization_flags": "-Os",
+  "customBuildProperties": "build.warn_data_percentage=75",
+  "fqbn": "arduino-pippo:samd:arduino_zero_edbg",
+  "hardwareFolders": "/home/rsora/.arduino15/packages,/home/rsora/Arduino/hardware",
+  "otherLibrariesFolders": "/home/rsora/Arduino/libraries",
+  "runtime.ide.version": "10607",
+  "sketchLocation": "/home/rsora/Arduino/Blink/Blink.ino"
+}

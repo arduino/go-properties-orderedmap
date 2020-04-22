@@ -30,12 +30,14 @@
 package properties
 
 import (
+	"encoding/json"
 	"fmt"
 	"path/filepath"
 	"runtime"
 	"sort"
 	"testing"
 
+	"github.com/arduino/go-paths-helper"
 	"github.com/stretchr/testify/require"
 )
 
@@ -214,4 +216,15 @@ func TestEquals(t *testing.T) {
 	require.True(t, y.EqualsWithOrder(x))
 	require.False(t, x.EqualsWithOrder(z))
 	require.False(t, z.EqualsWithOrder(x))
+
+	data, err := paths.New("testdata/build.json").ReadFile()
+	require.NoError(t, err)
+	data2, err := paths.New("testdata/build-2.json").ReadFile()
+	require.NoError(t, err)
+
+	var opts *Map
+	var prevOpts *Map
+	json.Unmarshal([]byte(data), &opts)
+	json.Unmarshal([]byte(data2), &prevOpts)
+	require.False(t, opts.Equals(prevOpts))
 }
