@@ -84,6 +84,9 @@ import (
 type Map struct {
 	kv map[string]string
 	o  []string
+
+	// Debug if set to true ExpandPropsInString will always output debugging information
+	Debug bool
 }
 
 var osSuffix string
@@ -379,17 +382,7 @@ func (m *Map) SubTree(rootKey string) *Map {
 // The values in the Map may contains other markers, they are evaluated
 // recursively up to 10 times.
 func (m *Map) ExpandPropsInString(str string) string {
-	for i := 0; i < 10; i++ {
-		newStr := str
-		for key, value := range m.kv {
-			newStr = strings.Replace(newStr, "{"+key+"}", value, -1)
-		}
-		if str == newStr {
-			break
-		}
-		str = newStr
-	}
-	return str
+	return m.expandProps(str, false)
 }
 
 // Merge merges other Maps into this one. Each key/value of the merged Maps replaces
@@ -462,14 +455,4 @@ func MergeMapsOfProperties(target map[string]*Map, sources ...map[string]*Map) m
 func DeleteUnexpandedPropsFromString(str string) string {
 	rxp := regexp.MustCompile("\\{.+?\\}")
 	return rxp.ReplaceAllString(str, "")
-}
-
-// Dump returns a representation of the map in golang source format
-func (m *Map) Dump() string {
-	res := "properties.Map{\n"
-	for _, k := range m.o {
-		res += fmt.Sprintf("  \"%s\": \"%s\",\n", strings.Replace(k, `"`, `\"`, -1), strings.Replace(m.Get(k), `"`, `\"`, -1))
-	}
-	res += "}"
-	return res
 }
