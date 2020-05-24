@@ -220,7 +220,7 @@ func (m *Map) GetOk(key string) (string, bool) {
 	return v, ok
 }
 
-// ContainsKey returns true
+// ContainsKey returns true if the map contains the specified key
 func (m *Map) ContainsKey(key string) bool {
 	_, has := m.kv[key]
 	return has
