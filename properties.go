@@ -226,6 +226,16 @@ func (m *Map) ContainsKey(key string) bool {
 	return has
 }
 
+// ContainsValue returns true if the map contains the specified value
+func (m *Map) ContainsValue(value string) bool {
+	for _, v := range m.kv {
+		if v == value {
+			return true
+		}
+	}
+	return false
+}
+
 // Set inserts or replaces an existing key-value pair in the map
 func (m *Map) Set(key, value string) {
 	if _, has := m.kv[key]; has {
