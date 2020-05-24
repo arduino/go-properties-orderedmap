@@ -188,7 +188,7 @@ func TestKeysMethod(t *testing.T) {
 	require.Equal(t, "[anothevalue othervalue value value]", fmt.Sprintf("%s", v))
 }
 
-func TestEquals(t *testing.T) {
+func TestEqualsAndContains(t *testing.T) {
 	x := NewMap()
 	x.Set("k1", "value")
 	x.Set("k2", "othervalue")
@@ -206,6 +206,17 @@ func TestEquals(t *testing.T) {
 	z.Set("k1", "value")
 	z.Set("k3.k4", "anothevalue")
 	z.Set("k5", "value")
+
+	require.True(t, x.ContainsKey("k1"))
+	require.True(t, x.ContainsKey("k2"))
+	require.True(t, x.ContainsKey("k3.k4"))
+	require.True(t, x.ContainsKey("k5"))
+	require.False(t, x.ContainsKey("k3"))
+	require.False(t, x.ContainsKey("k4"))
+	require.True(t, x.ContainsValue("value"))
+	require.True(t, x.ContainsValue("othervalue"))
+	require.True(t, x.ContainsValue("anothevalue"))
+	require.False(t, x.ContainsValue("vvvalue"))
 
 	require.True(t, x.Equals(y))
 	require.True(t, y.Equals(x))
