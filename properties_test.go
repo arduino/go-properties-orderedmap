@@ -74,15 +74,18 @@ func TestPropertiesTestTxt(t *testing.T) {
 	}
 }
 
-func TestExpandPropsInString(t *testing.T) {
+func TestExpandPropsInStringAndMissingCheck(t *testing.T) {
 	aMap := NewMap()
 	aMap.Set("key1", "42")
 	aMap.Set("key2", "{key1}")
+	aMap.Set("key3", "{key4}")
 
-	str := "{key1} == {key2} == true"
+	require.Equal(t, "42 == 42 == true", aMap.ExpandPropsInString("{key1} == {key2} == true"))
 
-	str = aMap.ExpandPropsInString(str)
-	require.Equal(t, "42 == 42 == true", str)
+	require.False(t, aMap.IsProertyMissingInExpandPropsInString("key3", "{key1} == {key2} == true"))
+	require.False(t, aMap.IsProertyMissingInExpandPropsInString("key1", "{key1} == {key2} == true"))
+	require.True(t, aMap.IsProertyMissingInExpandPropsInString("key4", "{key4} == {key2}"))
+	require.True(t, aMap.IsProertyMissingInExpandPropsInString("key4", "{key3} == {key2}"))
 }
 
 func TestExpandPropsInString2(t *testing.T) {

@@ -71,6 +71,7 @@ package properties
 import (
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"os"
 	"reflect"
 	"regexp"
@@ -393,6 +394,39 @@ func (m *Map) SubTree(rootKey string) *Map {
 // recursively up to 10 times.
 func (m *Map) ExpandPropsInString(str string) string {
 	return m.expandProps(str, false)
+}
+
+// IsProertyMissingInExpandPropsInString checks if a property 'prop' is missing
+// when the ExpandPropsInString method is applied to the input string 'str'.
+// This method returns false if the 'prop' is defined in the map
+// or if 'prop' is not used in the string expansion of 'str', otherwise
+// the method returns true.
+func (m *Map) IsProertyMissingInExpandPropsInString(prop, str string) bool {
+	if m.ContainsKey(prop) {
+		return false
+	}
+
+	xm := m.Clone()
+
+	// Find a random tag that is not contained in the dictionary and the src pattern
+	var token string
+	for {
+		token = fmt.Sprintf("%d", rand.Int63())
+		if strings.Contains(str, token) {
+			continue
+		}
+		if xm.ContainsKey(token) {
+			continue
+		}
+		if xm.ContainsValue(token) {
+			continue
+		}
+		break
+	}
+	xm.Set(prop, token)
+
+	res := xm.expandProps(str, false)
+	return strings.Contains(res, token)
 }
 
 // Merge merges other Maps into this one. Each key/value of the merged Maps replaces
