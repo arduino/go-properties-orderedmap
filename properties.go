@@ -405,12 +405,12 @@ func (m *Map) ExpandPropsInString(str string) string {
 	return m.expandProps(str, false)
 }
 
-// IsProertyMissingInExpandPropsInString checks if a property 'prop' is missing
+// IsPropertyMissingInExpandPropsInString checks if a property 'prop' is missing
 // when the ExpandPropsInString method is applied to the input string 'str'.
 // This method returns false if the 'prop' is defined in the map
 // or if 'prop' is not used in the string expansion of 'str', otherwise
 // the method returns true.
-func (m *Map) IsProertyMissingInExpandPropsInString(prop, str string) bool {
+func (m *Map) IsPropertyMissingInExpandPropsInString(prop, str string) bool {
 	if m.ContainsKey(prop) {
 		return false
 	}
