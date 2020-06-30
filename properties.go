@@ -126,13 +126,8 @@ func NewFromHashmap(orig map[string]string) *Map {
 	return res
 }
 
-// Load reads a properties file and makes a Map out of it.
-func Load(filepath string) (*Map, error) {
-	bytes, err := ioutil.ReadFile(filepath)
-	if err != nil {
-		return nil, fmt.Errorf("Error reading file: %s", err)
-	}
-
+// LoadFromBytes reads properties data and makes a Map out of it.
+func LoadFromBytes(bytes []byte) (*Map, error) {
 	text := string(bytes)
 	text = strings.Replace(text, "\r\n", "\n", -1)
 	text = strings.Replace(text, "\r", "\n", -1)
@@ -141,11 +136,25 @@ func Load(filepath string) (*Map, error) {
 
 	for lineNum, line := range strings.Split(text, "\n") {
 		if err := properties.parseLine(line); err != nil {
-			return nil, fmt.Errorf("Error reading file (%s:%d): %s", filepath, lineNum, err)
+			return nil, fmt.Errorf("Error parsing data at line %d: %s", lineNum, err)
 		}
 	}
 
 	return properties, nil
+}
+
+// Load reads a properties file and makes a Map out of it.
+func Load(filepath string) (*Map, error) {
+	bytes, err := ioutil.ReadFile(filepath)
+	if err != nil {
+		return nil, fmt.Errorf("Error reading file: %s", err)
+	}
+
+	res, err := LoadFromBytes(bytes)
+	if err != nil {
+		return nil, fmt.Errorf("Error reading file: %s", err)
+	}
+	return res, nil
 }
 
 // LoadFromPath reads a properties file and makes a Map out of it.

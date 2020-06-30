@@ -136,6 +136,65 @@ func TestPropertiesRedBeearLabBoardsTxt(t *testing.T) {
 	require.Equal(t, "arduino:arduino", ethernet.Get("build.core"))
 }
 
+func TestLoadFromBytes(t *testing.T) {
+	data := []byte(`
+yun.vid.0=0x2341
+yun.pid.0=0x0041
+yun.vid.1=0x2341
+yun.pid.1=0x8041
+yun.upload.tool=avrdude
+yun.upload.protocol=avr109
+yun.upload.maximum_size=28672
+yun.upload.maximum_data_size=2560
+yun.upload.speed=57600
+yun.upload.disable_flushing=true
+yun.upload.use_1200bps_touch=true
+yun.upload.wait_for_upload_port=true
+`)
+	m, err := LoadFromBytes(data)
+	require.NoError(t, err)
+	require.Equal(t, "57600", m.Get("yun.upload.speed"))
+
+	data2 := []byte(`
+yun.vid.0=0x2341
+yun.pid.1
+yun.upload.tool=avrdude
+`)
+	m2, err2 := LoadFromBytes(data2)
+	fmt.Println(err2)
+	require.Error(t, err2)
+	require.Nil(t, m2)
+}
+
+func TestLoadFromSlice(t *testing.T) {
+	data := []string{"yun.vid.0=0x2341",
+		"yun.pid.0=0x0041",
+		"yun.vid.1=0x2341",
+		"yun.pid.1=0x8041",
+		"yun.upload.tool=avrdude",
+		"yun.upload.protocol=avr109",
+		"yun.upload.maximum_size=28672",
+		"yun.upload.maximum_data_size=2560",
+		"yun.upload.speed=57600",
+		"yun.upload.disable_flushing=true",
+		"yun.upload.use_1200bps_touch=true",
+		"yun.upload.wait_for_upload_port=true",
+	}
+	m, err := LoadFromSlice(data)
+	require.NoError(t, err)
+	require.Equal(t, "57600", m.Get("yun.upload.speed"))
+
+	data2 := []string{
+		"yun.vid.0=0x2341",
+		"yun.pid.1",
+		"yun.upload.tool=avrdude",
+	}
+
+	m2, err2 := LoadFromSlice(data2)
+	fmt.Println(err2)
+	require.Error(t, err2)
+	require.Nil(t, m2)
+}
 func TestSubTreeForMultipleDots(t *testing.T) {
 	p := NewMap()
 	p.Set("root.lev1.prop", "hi")
