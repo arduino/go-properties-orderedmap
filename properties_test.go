@@ -58,20 +58,14 @@ func TestPropertiesTestTxt(t *testing.T) {
 	p, err := Load(filepath.Join("testdata", "test.txt"))
 
 	require.NoError(t, err)
-
-	require.Equal(t, 4, p.Size())
 	require.Equal(t, "value = 1", p.Get("key"))
 
-	switch value := runtime.GOOS; value {
-	case "linux":
-		require.Equal(t, "is linux", p.Get("which.os"))
-	case "windows":
-		require.Equal(t, "is windows", p.Get("which.os"))
-	case "darwin":
-		require.Equal(t, "is macosx", p.Get("which.os"))
-	default:
-		require.FailNow(t, "unsupported OS")
+	runOS := runtime.GOOS
+	if runOS == "darwin" {
+		runOS = "macosx"
 	}
+
+	require.Equal(t, fmt.Sprintf("is %s", runOS), p.Get("which.os"))
 }
 
 func TestExpandPropsInStringAndMissingCheck(t *testing.T) {

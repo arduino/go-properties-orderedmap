@@ -6,3 +6,6 @@ which.os=dunno
 which.os.linux=is linux
 which.os.macosx=is macosx
 which.os.windows=is windows
+which.os.openbsd=is openbsd
+which.os.freebsd=is freebsd
+which.os.netbsd=is netbsd

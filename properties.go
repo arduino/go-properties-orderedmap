@@ -94,12 +94,10 @@ var osSuffix string
 
 func init() {
 	switch value := runtime.GOOS; value {
-	case "linux", "freebsd", "windows":
-		osSuffix = runtime.GOOS
 	case "darwin":
 		osSuffix = "macosx"
 	default:
-		panic("Unsupported OS")
+		osSuffix = runtime.GOOS
 	}
 }
 
