@@ -9,5 +9,5 @@ syntax.
 
 This map also keeps the insertion order when ranging through the `Keys()` method.
 
-For more information read the docs [here](https://godoc.org/github.com/arduino/go-properties-map).
+For more information read the docs [here](https://godoc.org/github.com/arduino/go-properties-orderedmap).
 
