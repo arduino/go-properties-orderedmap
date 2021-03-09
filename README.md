@@ -11,3 +11,10 @@ This map also keeps the insertion order when ranging through the `Keys()` method
 
 For more information read the docs [here](https://godoc.org/github.com/arduino/go-properties-orderedmap).
 
+## Security
+
+If you think you found a vulnerability or other security-related bug in this project, please read our
+[security policy](https://github.com/arduino/go-properties-orderedmap/security/policy) and report the bug to our Security Team 🛡️
+Thank you!
+
+e-mail contact: security@arduino.cc
