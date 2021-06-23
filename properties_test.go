@@ -343,3 +343,40 @@ func TestExtractSubIndexSets(t *testing.T) {
 	require.Equal(t, s4[1].Get("vid"), "0x1003")
 	require.Equal(t, s4[1].Get("pid"), "0x2003")
 }
+
+func TestExtractSubIndexLists(t *testing.T) {
+	data := map[string]string{
+		"uno.discovery.required":       "item",
+		"due.discovery.required.0":     "item1",
+		"due.discovery.required.1":     "item2",
+		"due.discovery.required.2":     "item3",
+		"tre.discovery.required.1":     "itemA",
+		"tre.discovery.required.2":     "itemB",
+		"tre.discovery.required.3":     "itemC",
+		"quattro.discovery.required":   "itemA",
+		"quattro.discovery.required.1": "itemB",
+		"quattro.discovery.required.2": "itemC",
+	}
+	m := NewFromHashmap(data)
+
+	s1 := m.ExtractSubIndexLists("uno.discovery.required")
+	require.Len(t, s1, 1)
+	require.Equal(t, s1[0], "item")
+
+	s2 := m.ExtractSubIndexLists("due.discovery.required")
+	require.Len(t, s2, 3)
+	require.Equal(t, s2[0], "item1")
+	require.Equal(t, s2[1], "item2")
+	require.Equal(t, s2[2], "item3")
+
+	s3 := m.ExtractSubIndexLists("tre.discovery.required")
+	require.Len(t, s3, 3)
+	require.Equal(t, s3[0], "itemA")
+	require.Equal(t, s3[1], "itemB")
+	require.Equal(t, s3[2], "itemC")
+
+	s4 := m.ExtractSubIndexLists("quattro.discovery.required")
+	require.Len(t, s4, 2)
+	require.Equal(t, s4[0], "itemB")
+	require.Equal(t, s4[1], "itemC")
+}
