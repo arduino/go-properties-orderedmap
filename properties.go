@@ -507,3 +507,84 @@ func DeleteUnexpandedPropsFromString(str string) string {
 	rxp := regexp.MustCompile("\\{.+?\\}")
 	return rxp.ReplaceAllString(str, "")
 }
+
+// ExtractSubIndexSets works like SubTree but it considers also the numeric sub index in the form
+// `root.N.xxx...` as separate subsets.
+// For example the following Map:
+//
+//  properties.Map{
+//    "uno.upload_port.vid": "0x1000",
+//    "uno.upload_port.pid": "0x2000",
+//    "due.upload_port.0.vid": "0x1000",
+//    "due.upload_port.0.pid": "0x2000",
+//    "due.upload_port.1.vid": "0x1001",
+//    "due.upload_port.1.pid": "0x2001",
+//    "tre.upload_port.1.vid": "0x1001",
+//    "tre.upload_port.1.pid": "0x2001",
+//    "tre.upload_port.2.vid": "0x1002",
+//    "tre.upload_port.2.pid": "0x2002",
+//  }
+//
+// calling ExtractSubIndexSets("uno.upload_port") returns the array:
+//
+//  [ properties.Map{
+//      "vid": "0x1000",
+//      "pid": "0x2000",
+//    },
+//  ]
+//
+// calling ExtractSubIndexSets("due.upload_port") returns the array:
+//
+//  [ properties.Map{
+//      "vid": "0x1000",
+//      "pid": "0x2000",
+//    },
+//    properties.Map{
+//      "vid": "0x1001",
+//      "pid": "0x2001",
+//    },
+//  ]
+//
+// the sub-index may start with .1 too, so calling ExtractSubIndexSets("tre.upload_port") returns:
+//
+//  [ properties.Map{
+//      "vid": "0x1001",
+//      "pid": "0x2001",
+//    },
+//    properties.Map{
+//      "vid": "0x1002",
+//      "pid": "0x2002",
+//    },
+//  ]
+//
+// Numeric subindex cannot be mixed with non-numeric, in that case only the numeric sub
+// index sets will be returned.
+func (m *Map) ExtractSubIndexSets(root string) []*Map {
+	res := []*Map{}
+	portIDPropsSet := m.SubTree(root)
+	if portIDPropsSet.Size() == 0 {
+		return res
+	}
+
+	// First check the properties with numeric sub index "root.N.xxx"
+	idx := 0
+	haveIndexedProperties := false
+	for {
+		idProps := portIDPropsSet.SubTree(fmt.Sprintf("%d", idx))
+		idx++
+		if idProps.Size() > 0 {
+			haveIndexedProperties = true
+			res = append(res, idProps)
+		} else if idx > 1 {
+			// Always check sub-id 0 and 1 (https://github.com/arduino/arduino-cli/issues/456)
+			break
+		}
+	}
+
+	// if there are no subindexed then return the whole "roox.xxx" subtree
+	if !haveIndexedProperties {
+		res = append(res, portIDPropsSet)
+	}
+
+	return res
+}
