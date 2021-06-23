@@ -295,3 +295,51 @@ func TestEqualsAndContains(t *testing.T) {
 	json.Unmarshal([]byte(data2), &prevOpts)
 	require.False(t, opts.Equals(prevOpts))
 }
+
+func TestExtractSubIndexSets(t *testing.T) {
+	data := map[string]string{
+		"uno.upload_port.vid":       "0x1000",
+		"uno.upload_port.pid":       "0x2000",
+		"due.upload_port.0.vid":     "0x1000",
+		"due.upload_port.0.pid":     "0x2000",
+		"due.upload_port.1.vid":     "0x1001",
+		"due.upload_port.1.pid":     "0x2001",
+		"tre.upload_port.1.vid":     "0x1001",
+		"tre.upload_port.1.pid":     "0x2001",
+		"tre.upload_port.2.vid":     "0x1002",
+		"tre.upload_port.2.pid":     "0x2002",
+		"quattro.upload_port.vid":   "0x1001",
+		"quattro.upload_port.pid":   "0x2001",
+		"quattro.upload_port.1.vid": "0x1002",
+		"quattro.upload_port.1.pid": "0x2002",
+		"quattro.upload_port.2.vid": "0x1003",
+		"quattro.upload_port.2.pid": "0x2003",
+	}
+	m := NewFromHashmap(data)
+
+	s1 := m.ExtractSubIndexSets("uno.upload_port")
+	require.Len(t, s1, 1)
+	require.Equal(t, s1[0].Get("vid"), "0x1000")
+	require.Equal(t, s1[0].Get("pid"), "0x2000")
+
+	s2 := m.ExtractSubIndexSets("due.upload_port")
+	require.Len(t, s2, 2)
+	require.Equal(t, s2[0].Get("vid"), "0x1000")
+	require.Equal(t, s2[0].Get("pid"), "0x2000")
+	require.Equal(t, s2[1].Get("vid"), "0x1001")
+	require.Equal(t, s2[1].Get("pid"), "0x2001")
+
+	s3 := m.ExtractSubIndexSets("tre.upload_port")
+	require.Len(t, s3, 2)
+	require.Equal(t, s3[0].Get("vid"), "0x1001")
+	require.Equal(t, s3[0].Get("pid"), "0x2001")
+	require.Equal(t, s3[1].Get("vid"), "0x1002")
+	require.Equal(t, s3[1].Get("pid"), "0x2002")
+
+	s4 := m.ExtractSubIndexSets("quattro.upload_port")
+	require.Len(t, s4, 2)
+	require.Equal(t, s4[0].Get("vid"), "0x1002")
+	require.Equal(t, s4[0].Get("pid"), "0x2002")
+	require.Equal(t, s4[1].Get("vid"), "0x1003")
+	require.Equal(t, s4[1].Get("pid"), "0x2003")
+}
