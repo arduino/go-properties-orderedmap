@@ -588,3 +588,56 @@ func (m *Map) ExtractSubIndexSets(root string) []*Map {
 
 	return res
 }
+
+// ExtractSubIndexLists extracts a list of arguments from a root `root.N=...`.
+// For example the following Map:
+//
+//  properties.Map{
+//    "uno.discovery.required": "item",
+//    "due.discovery.required.0": "item1",
+//    "due.discovery.required.1": "item2",
+//    "due.discovery.required.2": "item3",
+//    "tre.discovery.required.1": "itemA",
+//    "tre.discovery.required.2": "itemB",
+//    "tre.discovery.required.3": "itemC",
+//  }
+//
+// calling ExtractSubIndexLists("uno.discovery.required") returns the array:
+//
+//  [ "item" ]
+//
+// calling ExtractSubIndexLists("due.discovery.required") returns the array:
+//
+//  [ "item1", "item2", "item3" ]
+//
+// the sub-index may start with .1 too, so calling ExtractSubIndexLists("tre.discovery.required") returns:
+//
+//  [ "itemA", "itemB", "itemC" ]
+//
+// Numeric subindex cannot be mixed with non-numeric, in that case only the numeric sub
+// index sets will be returned.
+func (m *Map) ExtractSubIndexLists(root string) []string {
+	// First check the properties with numeric sub index "root.N.xxx"
+	res := []string{}
+	portIDPropsSet := m.SubTree(root)
+	idx := 0
+	haveIndexedProperties := false
+	for {
+		k := fmt.Sprintf("%d", idx)
+		idx++
+		if v, ok := portIDPropsSet.GetOk(k); ok {
+			haveIndexedProperties = true
+			res = append(res, v)
+		} else if idx > 1 {
+			// Always check sub-id 0 and 1 (https://github.com/arduino/arduino-cli/issues/456)
+			break
+		}
+	}
+
+	// if there are no subindexed then return the whole "roox.xxx" subtree
+	if !haveIndexedProperties {
+		res = append(res, m.Get(root))
+	}
+
+	return res
+}
