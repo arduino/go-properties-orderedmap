@@ -636,7 +636,9 @@ func (m *Map) ExtractSubIndexLists(root string) []string {
 
 	// if there are no subindexed then return the whole "roox.xxx" subtree
 	if !haveIndexedProperties {
-		res = append(res, m.Get(root))
+		if value, ok := m.GetOk(root); ok {
+			res = append(res, value)
+		}
 	}
 
 	return res

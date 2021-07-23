@@ -356,6 +356,7 @@ func TestExtractSubIndexLists(t *testing.T) {
 		"quattro.discovery.required":   "itemA",
 		"quattro.discovery.required.1": "itemB",
 		"quattro.discovery.required.2": "itemC",
+		"cinque.discovery.something":   "itemX",
 	}
 	m := NewFromHashmap(data)
 
@@ -379,4 +380,7 @@ func TestExtractSubIndexLists(t *testing.T) {
 	require.Len(t, s4, 2)
 	require.Equal(t, s4[0], "itemB")
 	require.Equal(t, s4[1], "itemC")
+
+	s5 := m.ExtractSubIndexLists("cinque.discovery.required")
+	require.Len(t, s5, 0)
 }
