@@ -106,6 +106,11 @@ func GetOSSuffix() string {
 	return osSuffix
 }
 
+// SetOSSuffix force the OS suffix to the given value
+func SetOSSuffix(suffix string) {
+	osSuffix = suffix
+}
+
 // NewMap returns a new Map
 func NewMap() *Map {
 	return &Map{
