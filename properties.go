@@ -54,12 +54,12 @@ syntax, for example:
  diecimila.build.variant=standard
  ...
 
-This library has methods to parse this kind of files into a Map object.
+This library has methods to parse this kind of file into a Map object.
 
 The Map internally keeps the insertion order so it can be retrieved later when
 cycling through the key sets.
 
-The Map object has many helper methods to accomplish some common operation
+The Map object has many helper methods to accomplish some common operations
 on this kind of data like cloning, merging, comparing and also extracting
 a submap or generating a map-of-submaps from the first "level" of the hierarchy.
 
@@ -106,7 +106,7 @@ func GetOSSuffix() string {
 	return osSuffix
 }
 
-// SetOSSuffix force the OS suffix to the given value
+// SetOSSuffix forces the OS suffix to the given value
 func SetOSSuffix(suffix string) {
 	osSuffix = suffix
 }
@@ -201,13 +201,13 @@ func (m *Map) parseLine(line string) error {
 }
 
 // SafeLoadFromPath is like LoadFromPath, except that it returns an empty Map if
-// the specified file doesn't exists
+// the specified file doesn't exist
 func SafeLoadFromPath(path *paths.Path) (*Map, error) {
 	return SafeLoad(path.String())
 }
 
 // SafeLoad is like Load, except that it returns an empty Map if the specified
-// file doesn't exists
+// file doesn't exist
 func SafeLoad(filepath string) (*Map, error) {
 	_, err := os.Stat(filepath)
 	if os.IsNotExist(err) {
@@ -221,12 +221,12 @@ func SafeLoad(filepath string) (*Map, error) {
 	return properties, nil
 }
 
-// Get retrieve the value corresponding to key
+// Get retrieves the value corresponding to key
 func (m *Map) Get(key string) string {
 	return m.kv[key]
 }
 
-// GetOk retrieve the value corresponding to key and return a true/false indicator
+// GetOk retrieves the value corresponding to key and returns a true/false indicator
 // to check if the key is present in the map (true if the key is present)
 func (m *Map) GetOk(key string) (string, bool) {
 	v, ok := m.kv[key]
@@ -258,7 +258,7 @@ func (m *Map) Set(key, value string) {
 	m.o = append(m.o, key)
 }
 
-// Size return the number of elements in the map
+// Size returns the number of elements in the map
 func (m *Map) Size() int {
 	return len(m.kv)
 }
@@ -299,7 +299,7 @@ func (m *Map) Remove(key string) {
 //      "upload.maximum_size": "32256",
 //    },
 //    "diecimila" : properties.Map{
-//      "name=Arduino Duemilanove or Diecimila
+//      "name": "Arduino Duemilanove or Diecimila",
 //      "upload.tool": "avrdude",
 //      "upload.protocol": "arduino",
 //      "bootloader.tool": "avrdude",
@@ -375,7 +375,7 @@ func (m *Map) FirstLevelKeys() []string {
 //    "diecimila.bootloader.low_fuses": "0xFF",
 //  }
 //
-// after calling SubTree("uno") will be transformed in:
+// after calling SubTree("uno") will be transformed into:
 //
 //  properties.Map{
 //    "name": "Arduino/Genuino Uno",
@@ -396,13 +396,13 @@ func (m *Map) SubTree(rootKey string) *Map {
 	return newMap
 }
 
-// ExpandPropsInString use the Map to replace values into a format string.
+// ExpandPropsInString uses the Map to replace values into a format string.
 // The format string should contains markers between braces, for example:
 //
 //  "The selected upload protocol is {upload.protocol}."
 //
 // Each marker is replaced by the corresponding value of the Map.
-// The values in the Map may contains other markers, they are evaluated
+// The values in the Map may contain other markers, they are evaluated
 // recursively up to 10 times.
 func (m *Map) ExpandPropsInString(str string) string {
 	return m.expandProps(str, false)
@@ -495,7 +495,7 @@ func (m *Map) EqualsWithOrder(other *Map) bool {
 	return reflect.DeepEqual(m.o, other.o) && reflect.DeepEqual(m.kv, other.kv)
 }
 
-// MergeMapsOfProperties merge the map-of-Maps (obtained from the method FirstLevelOf()) into the
+// MergeMapsOfProperties merges the map-of-Maps (obtained from the method FirstLevelOf()) into the
 // target map-of-Maps.
 func MergeMapsOfProperties(target map[string]*Map, sources ...map[string]*Map) map[string]*Map {
 	for _, source := range sources {

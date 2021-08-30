@@ -34,7 +34,7 @@ import (
 	"strings"
 )
 
-// DebugExpandPropsInString output the substitutions made by
+// DebugExpandPropsInString outputs the substitutions made by
 // ExpandPropsInString for debugging purposes.
 func (m *Map) DebugExpandPropsInString(str string) string {
 	return m.expandProps(str, true)
