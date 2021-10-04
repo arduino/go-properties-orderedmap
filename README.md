@@ -1,4 +1,7 @@
 
+**DEPRECATED: This library has been phased out in favor of: https://github.com/arduino/go-properties-orderedmap**
+Please use the library above for new projects.
+
 [![GoDoc](https://godoc.org/github.com/arduino/go-properties-orderedmap?status.svg)](https://godoc.org/github.com/arduino/go-properties-orderedmap)
 
 Package `properties` is a library for handling maps of hierarchical properties.  
