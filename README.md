@@ -2,6 +2,7 @@
 [![GoDoc](https://godoc.org/github.com/arduino/go-properties-orderedmap?status.svg)](https://godoc.org/github.com/arduino/go-properties-orderedmap)
 [![Check License status](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-license.yml/badge.svg)](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-license.yml)
 [![Check Markdown status](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-markdown-task.yml/badge.svg)](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-markdown-task.yml)
+[![Check Taskfiles status](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-taskfiles.yml/badge.svg)](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-taskfiles.yml)
 
 Package `properties` is a library for handling maps of hierarchical properties.
 
