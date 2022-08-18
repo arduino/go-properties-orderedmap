@@ -1,8 +1,9 @@
 
 [![GoDoc](https://godoc.org/github.com/arduino/go-properties-orderedmap?status.svg)](https://godoc.org/github.com/arduino/go-properties-orderedmap)
 [![Check License status](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-license.yml/badge.svg)](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-license.yml)
+[![Check Markdown status](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-markdown-task.yml/badge.svg)](https://github.com/arduino/go-properties-orderedmap/actions/workflows/check-markdown-task.yml)
 
-Package `properties` is a library for handling maps of hierarchical properties.  
+Package `properties` is a library for handling maps of hierarchical properties.
 
 This library is mainly used in the Arduino platform software to handle
 configurations made of key/value pairs stored in files with an INI like
