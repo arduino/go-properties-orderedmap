@@ -33,26 +33,26 @@ This library is mainly used in the Arduino platform software to handle
 configurations made of key/value pairs stored in files with an INI like
 syntax, for example:
 
- ...
- uno.name=Arduino/Genuino Uno
- uno.upload.tool=avrdude
- uno.upload.protocol=arduino
- uno.upload.maximum_size=32256
- uno.upload.maximum_data_size=2048
- uno.upload.speed=115200
- uno.build.mcu=atmega328p
- uno.build.f_cpu=16000000L
- uno.build.board=AVR_UNO
- uno.build.core=arduino
- uno.build.variant=standard
- diecimila.name=Arduino Duemilanove or Diecimila
- diecimila.upload.tool=avrdude
- diecimila.upload.protocol=arduino
- diecimila.build.f_cpu=16000000L
- diecimila.build.board=AVR_DUEMILANOVE
- diecimila.build.core=arduino
- diecimila.build.variant=standard
- ...
+	...
+	uno.name=Arduino/Genuino Uno
+	uno.upload.tool=avrdude
+	uno.upload.protocol=arduino
+	uno.upload.maximum_size=32256
+	uno.upload.maximum_data_size=2048
+	uno.upload.speed=115200
+	uno.build.mcu=atmega328p
+	uno.build.f_cpu=16000000L
+	uno.build.board=AVR_UNO
+	uno.build.core=arduino
+	uno.build.variant=standard
+	diecimila.name=Arduino Duemilanove or Diecimila
+	diecimila.upload.tool=avrdude
+	diecimila.upload.protocol=arduino
+	diecimila.build.f_cpu=16000000L
+	diecimila.build.board=AVR_DUEMILANOVE
+	diecimila.build.core=arduino
+	diecimila.build.variant=standard
+	...
 
 This library has methods to parse this kind of file into a Map object.
 
@@ -277,35 +277,35 @@ func (m *Map) Remove(key string) {
 // FirstLevelOf generates a map-of-Maps using the first level of the hierarchy
 // of the current Map. For example the following Map:
 //
-//  properties.Map{
-//    "uno.name": "Arduino/Genuino Uno",
-//    "uno.upload.tool": "avrdude",
-//    "uno.upload.protocol": "arduino",
-//    "uno.upload.maximum_size": "32256",
-//    "diecimila.name": "Arduino Duemilanove or Diecimila",
-//    "diecimila.upload.tool": "avrdude",
-//    "diecimila.upload.protocol": "arduino",
-//    "diecimila.bootloader.tool": "avrdude",
-//    "diecimila.bootloader.low_fuses": "0xFF",
-//  }
+//	properties.Map{
+//	  "uno.name": "Arduino/Genuino Uno",
+//	  "uno.upload.tool": "avrdude",
+//	  "uno.upload.protocol": "arduino",
+//	  "uno.upload.maximum_size": "32256",
+//	  "diecimila.name": "Arduino Duemilanove or Diecimila",
+//	  "diecimila.upload.tool": "avrdude",
+//	  "diecimila.upload.protocol": "arduino",
+//	  "diecimila.bootloader.tool": "avrdude",
+//	  "diecimila.bootloader.low_fuses": "0xFF",
+//	}
 //
 // is transformed into the following map-of-Maps:
 //
-//  map[string]Map{
-//    "uno" : properties.Map{
-//      "name": "Arduino/Genuino Uno",
-//      "upload.tool": "avrdude",
-//      "upload.protocol": "arduino",
-//      "upload.maximum_size": "32256",
-//    },
-//    "diecimila" : properties.Map{
-//      "name": "Arduino Duemilanove or Diecimila",
-//      "upload.tool": "avrdude",
-//      "upload.protocol": "arduino",
-//      "bootloader.tool": "avrdude",
-//      "bootloader.low_fuses": "0xFF",
-//    }
-//  }
+//	map[string]Map{
+//	  "uno" : properties.Map{
+//	    "name": "Arduino/Genuino Uno",
+//	    "upload.tool": "avrdude",
+//	    "upload.protocol": "arduino",
+//	    "upload.maximum_size": "32256",
+//	  },
+//	  "diecimila" : properties.Map{
+//	    "name": "Arduino Duemilanove or Diecimila",
+//	    "upload.tool": "avrdude",
+//	    "upload.protocol": "arduino",
+//	    "bootloader.tool": "avrdude",
+//	    "bootloader.low_fuses": "0xFF",
+//	  }
+//	}
 func (m *Map) FirstLevelOf() map[string]*Map {
 	newMap := make(map[string]*Map)
 	for _, key := range m.o {
@@ -325,24 +325,24 @@ func (m *Map) FirstLevelOf() map[string]*Map {
 // FirstLevelKeys returns the keys in the first level of the hierarchy
 // of the current Map. For example the following Map:
 //
-//  properties.Map{
-//    "uno.name": "Arduino/Genuino Uno",
-//    "uno.upload.tool": "avrdude",
-//    "uno.upload.protocol": "arduino",
-//    "uno.upload.maximum_size": "32256",
-//    "diecimila.name": "Arduino Duemilanove or Diecimila",
-//    "diecimila.upload.tool": "avrdude",
-//    "diecimila.upload.protocol": "arduino",
-//    "diecimila.bootloader.tool": "avrdude",
-//    "diecimila.bootloader.low_fuses": "0xFF",
-//  }
+//	properties.Map{
+//	  "uno.name": "Arduino/Genuino Uno",
+//	  "uno.upload.tool": "avrdude",
+//	  "uno.upload.protocol": "arduino",
+//	  "uno.upload.maximum_size": "32256",
+//	  "diecimila.name": "Arduino Duemilanove or Diecimila",
+//	  "diecimila.upload.tool": "avrdude",
+//	  "diecimila.upload.protocol": "arduino",
+//	  "diecimila.bootloader.tool": "avrdude",
+//	  "diecimila.bootloader.low_fuses": "0xFF",
+//	}
 //
 // will produce the following result:
 //
-//  []string{
-//    "uno",
-//    "diecimila",
-//  }
+//	[]string{
+//	  "uno",
+//	  "diecimila",
+//	}
 //
 // the order of the original map is preserved
 func (m *Map) FirstLevelKeys() []string {
@@ -363,26 +363,26 @@ func (m *Map) FirstLevelKeys() []string {
 // of the keys hierarchy as selector.
 // For example the following Map:
 //
-//  properties.Map{
-//    "uno.name": "Arduino/Genuino Uno",
-//    "uno.upload.tool": "avrdude",
-//    "uno.upload.protocol": "arduino",
-//    "uno.upload.maximum_size": "32256",
-//    "diecimila.name": "Arduino Duemilanove or Diecimila",
-//    "diecimila.upload.tool": "avrdude",
-//    "diecimila.upload.protocol": "arduino",
-//    "diecimila.bootloader.tool": "avrdude",
-//    "diecimila.bootloader.low_fuses": "0xFF",
-//  }
+//	properties.Map{
+//	  "uno.name": "Arduino/Genuino Uno",
+//	  "uno.upload.tool": "avrdude",
+//	  "uno.upload.protocol": "arduino",
+//	  "uno.upload.maximum_size": "32256",
+//	  "diecimila.name": "Arduino Duemilanove or Diecimila",
+//	  "diecimila.upload.tool": "avrdude",
+//	  "diecimila.upload.protocol": "arduino",
+//	  "diecimila.bootloader.tool": "avrdude",
+//	  "diecimila.bootloader.low_fuses": "0xFF",
+//	}
 //
 // after calling SubTree("uno") will be transformed into:
 //
-//  properties.Map{
-//    "name": "Arduino/Genuino Uno",
-//    "upload.tool": "avrdude",
-//    "upload.protocol": "arduino",
-//    "upload.maximum_size": "32256",
-//  },
+//	properties.Map{
+//	  "name": "Arduino/Genuino Uno",
+//	  "upload.tool": "avrdude",
+//	  "upload.protocol": "arduino",
+//	  "upload.maximum_size": "32256",
+//	},
 func (m *Map) SubTree(rootKey string) *Map {
 	rootKey += "."
 	newMap := NewMap()
@@ -399,7 +399,7 @@ func (m *Map) SubTree(rootKey string) *Map {
 // ExpandPropsInString uses the Map to replace values into a format string.
 // The format string should contains markers between braces, for example:
 //
-//  "The selected upload protocol is {upload.protocol}."
+//	"The selected upload protocol is {upload.protocol}."
 //
 // Each marker is replaced by the corresponding value of the Map.
 // The values in the Map may contain other markers, they are evaluated
@@ -517,50 +517,50 @@ func DeleteUnexpandedPropsFromString(str string) string {
 // `root.N.xxx...` as separate subsets.
 // For example the following Map:
 //
-//  properties.Map{
-//    "uno.upload_port.vid": "0x1000",
-//    "uno.upload_port.pid": "0x2000",
-//    "due.upload_port.0.vid": "0x1000",
-//    "due.upload_port.0.pid": "0x2000",
-//    "due.upload_port.1.vid": "0x1001",
-//    "due.upload_port.1.pid": "0x2001",
-//    "tre.upload_port.1.vid": "0x1001",
-//    "tre.upload_port.1.pid": "0x2001",
-//    "tre.upload_port.2.vid": "0x1002",
-//    "tre.upload_port.2.pid": "0x2002",
-//  }
+//	properties.Map{
+//	  "uno.upload_port.vid": "0x1000",
+//	  "uno.upload_port.pid": "0x2000",
+//	  "due.upload_port.0.vid": "0x1000",
+//	  "due.upload_port.0.pid": "0x2000",
+//	  "due.upload_port.1.vid": "0x1001",
+//	  "due.upload_port.1.pid": "0x2001",
+//	  "tre.upload_port.1.vid": "0x1001",
+//	  "tre.upload_port.1.pid": "0x2001",
+//	  "tre.upload_port.2.vid": "0x1002",
+//	  "tre.upload_port.2.pid": "0x2002",
+//	}
 //
 // calling ExtractSubIndexSets("uno.upload_port") returns the array:
 //
-//  [ properties.Map{
-//      "vid": "0x1000",
-//      "pid": "0x2000",
-//    },
-//  ]
+//	[ properties.Map{
+//	    "vid": "0x1000",
+//	    "pid": "0x2000",
+//	  },
+//	]
 //
 // calling ExtractSubIndexSets("due.upload_port") returns the array:
 //
-//  [ properties.Map{
-//      "vid": "0x1000",
-//      "pid": "0x2000",
-//    },
-//    properties.Map{
-//      "vid": "0x1001",
-//      "pid": "0x2001",
-//    },
-//  ]
+//	[ properties.Map{
+//	    "vid": "0x1000",
+//	    "pid": "0x2000",
+//	  },
+//	  properties.Map{
+//	    "vid": "0x1001",
+//	    "pid": "0x2001",
+//	  },
+//	]
 //
 // the sub-index may start with .1 too, so calling ExtractSubIndexSets("tre.upload_port") returns:
 //
-//  [ properties.Map{
-//      "vid": "0x1001",
-//      "pid": "0x2001",
-//    },
-//    properties.Map{
-//      "vid": "0x1002",
-//      "pid": "0x2002",
-//    },
-//  ]
+//	[ properties.Map{
+//	    "vid": "0x1001",
+//	    "pid": "0x2001",
+//	  },
+//	  properties.Map{
+//	    "vid": "0x1002",
+//	    "pid": "0x2002",
+//	  },
+//	]
 //
 // Numeric subindex cannot be mixed with non-numeric, in that case only the numeric sub
 // index sets will be returned.
@@ -597,27 +597,27 @@ func (m *Map) ExtractSubIndexSets(root string) []*Map {
 // ExtractSubIndexLists extracts a list of arguments from a root `root.N=...`.
 // For example the following Map:
 //
-//  properties.Map{
-//    "uno.discovery.required": "item",
-//    "due.discovery.required.0": "item1",
-//    "due.discovery.required.1": "item2",
-//    "due.discovery.required.2": "item3",
-//    "tre.discovery.required.1": "itemA",
-//    "tre.discovery.required.2": "itemB",
-//    "tre.discovery.required.3": "itemC",
-//  }
+//	properties.Map{
+//	  "uno.discovery.required": "item",
+//	  "due.discovery.required.0": "item1",
+//	  "due.discovery.required.1": "item2",
+//	  "due.discovery.required.2": "item3",
+//	  "tre.discovery.required.1": "itemA",
+//	  "tre.discovery.required.2": "itemB",
+//	  "tre.discovery.required.3": "itemC",
+//	}
 //
 // calling ExtractSubIndexLists("uno.discovery.required") returns the array:
 //
-//  [ "item" ]
+//	[ "item" ]
 //
 // calling ExtractSubIndexLists("due.discovery.required") returns the array:
 //
-//  [ "item1", "item2", "item3" ]
+//	[ "item1", "item2", "item3" ]
 //
 // the sub-index may start with .1 too, so calling ExtractSubIndexLists("tre.discovery.required") returns:
 //
-//  [ "itemA", "itemB", "itemC" ]
+//	[ "itemA", "itemB", "itemC" ]
 //
 // Numeric subindex cannot be mixed with non-numeric, in that case only the numeric sub
 // index sets will be returned.
