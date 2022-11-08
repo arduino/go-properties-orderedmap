@@ -309,7 +309,7 @@ func (m *Map) Remove(key string) {
 func (m *Map) FirstLevelOf() map[string]*Map {
 	newMap := make(map[string]*Map)
 	for _, key := range m.o {
-		if strings.Index(key, ".") == -1 {
+		if !strings.Contains(key, ".") {
 			continue
 		}
 		keyParts := strings.SplitN(key, ".", 2)
