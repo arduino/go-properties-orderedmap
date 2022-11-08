@@ -77,6 +77,7 @@ import (
 	"regexp"
 	"runtime"
 	"strings"
+	"unicode/utf8"
 
 	"github.com/arduino/go-paths-helper"
 )
@@ -129,9 +130,23 @@ func NewFromHashmap(orig map[string]string) *Map {
 	return res
 }
 
+func toUtf8(iso8859_1_buf []byte) string {
+	buf := make([]rune, len(iso8859_1_buf))
+	for i, b := range iso8859_1_buf {
+		buf[i] = rune(b)
+	}
+	return string(buf)
+}
+
 // LoadFromBytes reads properties data and makes a Map out of it.
 func LoadFromBytes(bytes []byte) (*Map, error) {
-	text := string(bytes)
+	var text string
+	if utf8.Valid(bytes) {
+		text = string(bytes)
+	} else {
+		// Assume ISO8859-1 encoding and convert to UTF-8
+		text = toUtf8(bytes)
+	}
 	text = strings.Replace(text, "\r\n", "\n", -1)
 	text = strings.Replace(text, "\r", "\n", -1)
 
