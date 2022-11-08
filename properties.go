@@ -509,7 +509,7 @@ func MergeMapsOfProperties(target map[string]*Map, sources ...map[string]*Map) m
 // DeleteUnexpandedPropsFromString removes all the brace markers "{xxx}" that are not expanded
 // into a value using the Map.ExpandPropsInString() method.
 func DeleteUnexpandedPropsFromString(str string) string {
-	rxp := regexp.MustCompile("\\{.+?\\}")
+	rxp := regexp.MustCompile(`\{.+?\}`)
 	return rxp.ReplaceAllString(str, "")
 }
 
