@@ -384,3 +384,9 @@ func TestExtractSubIndexLists(t *testing.T) {
 	s5 := m.ExtractSubIndexLists("cinque.discovery.required")
 	require.Len(t, s5, 0)
 }
+
+func TestLoadingNonUTF8Properties(t *testing.T) {
+	m, err := LoadFromPath(paths.New("testdata/non-utf8.properties"))
+	require.NoError(t, err)
+	require.Equal(t, "Aáa", m.Get("maintainer"))
+}
