@@ -139,7 +139,7 @@ func LoadFromBytes(bytes []byte) (*Map, error) {
 
 	for lineNum, line := range strings.Split(text, "\n") {
 		if err := properties.parseLine(line); err != nil {
-			return nil, fmt.Errorf("Error parsing data at line %d: %s", lineNum, err)
+			return nil, fmt.Errorf("error parsing data at line %d: %s", lineNum, err)
 		}
 	}
 
@@ -150,12 +150,12 @@ func LoadFromBytes(bytes []byte) (*Map, error) {
 func Load(filepath string) (*Map, error) {
 	bytes, err := ioutil.ReadFile(filepath)
 	if err != nil {
-		return nil, fmt.Errorf("Error reading file: %s", err)
+		return nil, fmt.Errorf("error reading file: %s", err)
 	}
 
 	res, err := LoadFromBytes(bytes)
 	if err != nil {
-		return nil, fmt.Errorf("Error reading file: %s", err)
+		return nil, fmt.Errorf("error reading file: %s", err)
 	}
 	return res, nil
 }
@@ -172,7 +172,7 @@ func LoadFromSlice(lines []string) (*Map, error) {
 
 	for lineNum, line := range lines {
 		if err := properties.parseLine(line); err != nil {
-			return nil, fmt.Errorf("Error reading from slice (index:%d): %s", lineNum, err)
+			return nil, fmt.Errorf("error reading from slice (index:%d): %s", lineNum, err)
 		}
 	}
 
@@ -189,7 +189,7 @@ func (m *Map) parseLine(line string) error {
 
 	lineParts := strings.SplitN(line, "=", 2)
 	if len(lineParts) != 2 {
-		return fmt.Errorf("Invalid line format, should be 'key=value'")
+		return fmt.Errorf("invalid line format, should be 'key=value'")
 	}
 	key := strings.TrimSpace(lineParts[0])
 	value := strings.TrimSpace(lineParts[1])
