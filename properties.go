@@ -485,10 +485,20 @@ func (m *Map) Values() []string {
 	return values
 }
 
-// AsMap return the underlying map[string]string. This is useful if you need to
+// AsMap returns the underlying map[string]string. This is useful if you need to
 // for ... range but without the requirement of the ordered elements.
 func (m *Map) AsMap() map[string]string {
 	return m.kv
+}
+
+// AsSlice returns the underlying map[string]string as a slice of
+// strings with the pattern `{key}={value}`, maintaining the insertion order of the keys.
+func (m *Map) AsSlice() []string {
+	properties := make([]string, len(m.o))
+	for i, key := range m.o {
+		properties[i] = strings.Join([]string{key, m.kv[key]}, "=")
+	}
+	return properties
 }
 
 // Clone makes a copy of the Map
