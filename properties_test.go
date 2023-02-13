@@ -390,3 +390,21 @@ func TestLoadingNonUTF8Properties(t *testing.T) {
 	require.NoError(t, err)
 	require.Equal(t, "Aáa", m.Get("maintainer"))
 }
+
+func TestAsSlice(t *testing.T) {
+	emptyProperties := NewMap()
+	require.Len(t, emptyProperties.AsSlice(), 0)
+
+	properties := NewMap()
+	properties.Set("key1", "value1")
+	properties.Set("key2", "value2")
+	properties.Set("key3", "value3=somethingElse")
+
+	require.Len(t, properties.AsSlice(), properties.Size())
+
+	require.Equal(t, []string{
+		"key1=value1",
+		"key2=value2",
+		"key3=value3=somethingElse"},
+		properties.AsSlice())
+}
