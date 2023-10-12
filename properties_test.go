@@ -357,32 +357,24 @@ func TestExtractSubIndexLists(t *testing.T) {
 		"quattro.discovery.required.1": "itemB",
 		"quattro.discovery.required.2": "itemC",
 		"cinque.discovery.something":   "itemX",
+		"sei.discovery.something.1":    "itemA",
+		"sei.discovery.something.2":    "itemB",
+		"sei.discovery.something.5":    "itemC",
+		"sei.discovery.something.12":   "itemD",
+		"sette.discovery.something.01": "itemA",
+		"sette.discovery.something.2":  "itemB",
+		"sette.discovery.something.05": "itemC",
+		"sette.discovery.something.5":  "itemD",
 	}
 	m := NewFromHashmap(data)
 
-	s1 := m.ExtractSubIndexLists("uno.discovery.required")
-	require.Len(t, s1, 1)
-	require.Equal(t, s1[0], "item")
-
-	s2 := m.ExtractSubIndexLists("due.discovery.required")
-	require.Len(t, s2, 3)
-	require.Equal(t, s2[0], "item1")
-	require.Equal(t, s2[1], "item2")
-	require.Equal(t, s2[2], "item3")
-
-	s3 := m.ExtractSubIndexLists("tre.discovery.required")
-	require.Len(t, s3, 3)
-	require.Equal(t, s3[0], "itemA")
-	require.Equal(t, s3[1], "itemB")
-	require.Equal(t, s3[2], "itemC")
-
-	s4 := m.ExtractSubIndexLists("quattro.discovery.required")
-	require.Len(t, s4, 2)
-	require.Equal(t, s4[0], "itemB")
-	require.Equal(t, s4[1], "itemC")
-
-	s5 := m.ExtractSubIndexLists("cinque.discovery.required")
-	require.Len(t, s5, 0)
+	require.Equal(t, []string{"item"}, m.ExtractSubIndexLists("uno.discovery.required"))
+	require.Equal(t, []string{"item1", "item2", "item3"}, m.ExtractSubIndexLists("due.discovery.required"))
+	require.Equal(t, []string{"itemA", "itemB", "itemC"}, m.ExtractSubIndexLists("tre.discovery.required"))
+	require.Equal(t, []string{"itemB", "itemC"}, m.ExtractSubIndexLists("quattro.discovery.required"))
+	require.Equal(t, []string{}, m.ExtractSubIndexLists("cinque.discovery.required"))
+	require.Equal(t, []string{"itemA", "itemB", "itemC", "itemD"}, m.ExtractSubIndexLists("sei.discovery.something"))
+	require.Equal(t, []string{"itemB", "itemD"}, m.ExtractSubIndexLists("sette.discovery.something"))
 }
 
 func TestLoadingNonUTF8Properties(t *testing.T) {

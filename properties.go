@@ -76,6 +76,8 @@ import (
 	"reflect"
 	"regexp"
 	"runtime"
+	"sort"
+	"strconv"
 	"strings"
 	"unicode/utf8"
 
@@ -630,6 +632,9 @@ func (m *Map) ExtractSubIndexSets(root string) []*Map {
 //	  "tre.discovery.required.1": "itemA",
 //	  "tre.discovery.required.2": "itemB",
 //	  "tre.discovery.required.3": "itemC",
+//	  "quattro.discovery.required.1": "itemA",
+//	  "quattro.discovery.required.4": "itemB",
+//	  "quattro.discovery.required.5": "itemC",
 //	}
 //
 // calling ExtractSubIndexLists("uno.discovery.required") returns the array:
@@ -644,23 +649,45 @@ func (m *Map) ExtractSubIndexSets(root string) []*Map {
 //
 //	[ "itemA", "itemB", "itemC" ]
 //
+// also the list may contains holes, so calling ExtractSubIndexLists("quattro.discovery.required") returns:
+//
+//	[ "itemA", "itemB", "itemC" ]
+//
 // Numeric subindex cannot be mixed with non-numeric, in that case only the numeric sub
 // index sets will be returned.
 func (m *Map) ExtractSubIndexLists(root string) []string {
-	// First check the properties with numeric sub index "root.N.xxx"
+	isNotDigit := func(in string) bool {
+		for _, r := range in {
+			if r < '0' || r > '9' {
+				return true
+			}
+		}
+		return false
+	}
+
+	// Extract numeric keys
+	subProps := m.SubTree(root)
+	indexes := []int{}
+	for _, key := range subProps.o {
+		if isNotDigit(key) {
+			continue
+		}
+		if idx, err := strconv.Atoi(key); err == nil {
+			indexes = append(indexes, idx)
+		}
+	}
+	sort.Ints(indexes)
+
 	res := []string{}
-	portIDPropsSet := m.SubTree(root)
-	idx := 0
 	haveIndexedProperties := false
-	for {
-		k := fmt.Sprintf("%d", idx)
-		idx++
-		if v, ok := portIDPropsSet.GetOk(k); ok {
+	for i, idx := range indexes {
+		if i > 0 && idx == indexes[i-1] {
+			// de-duplicate cases like "05" and "5"
+			continue
+		}
+		if v, ok := subProps.GetOk(strconv.Itoa(idx)); ok {
 			haveIndexedProperties = true
 			res = append(res, v)
-		} else if idx > 1 {
-			// Always check sub-id 0 and 1 (https://github.com/arduino/arduino-cli/issues/456)
-			break
 		}
 	}
 
