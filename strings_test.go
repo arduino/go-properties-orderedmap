@@ -64,8 +64,11 @@ func TestSplitQuotedStringWithUTF8(t *testing.T) {
 }
 
 func TestSplitQuotedStringInvalid(t *testing.T) {
-	_, err := SplitQuotedString(`'this is' a 'test of quoting`, `"'`, true)
-	require.Error(t, err)
-	_, err = SplitQuotedString(`'this is' a "'test" of "quoting`, `"'`, true)
-	require.Error(t, err)
+	res, err := SplitQuotedString(`'this is' a 'test of quoting`, `"'`, true)
+	require.EqualError(t, err, "invalid quoting, no closing `'` char found")
+	require.Equal(t, res, []string{"this is", "a"})
+
+	res, err = SplitQuotedString(`'this is' a "'test" of "quoting`, `"'`, true)
+	require.EqualError(t, err, "invalid quoting, no closing `\"` char found")
+	require.Equal(t, res, []string{"this is", "a", "'test", "of"})
 }
