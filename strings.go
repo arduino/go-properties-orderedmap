@@ -39,9 +39,29 @@ import (
 // to use spaces in a single element of the split using quote characters.
 //
 // For example the call:
-//   SplitQuotedString(`This 'is an' "Hello World!" example`, `'"`, false)
+//
+//	SplitQuotedString(`This 'is an' "Hello World!" example`, `'"`, false)
+//
 // returns the following array:
-//   []string{"This", "is an", "Hello World!", "example"}
+//
+//	[]string{"This", "is an", "Hello World!", "example"}
+//
+// The quoteChars parameter is a string containing all the characters that
+// are considered as quote characters. If a quote character is found, the
+// function will consider the text between the quote character and the next
+// quote character as a single element of the split.
+//
+// The acceptEmptyArguments parameter is a boolean that indicates if the
+// function should consider empty arguments as valid elements of the split.
+// If set to false, the function will ignore empty arguments.
+//
+// If the function finds an opening quote character and does not find the
+// closing quote character, it will return an error. In any case, the function
+// will return the split array up to the point where the error occurred.
+//
+// The function does not support escaping of quote characters.
+//
+// The function is UTF-8 safe.
 func SplitQuotedString(src string, quoteChars string, acceptEmptyArguments bool) ([]string, error) {
 	// Make a map of valid quote runes
 	isQuote := map[rune]bool{}
@@ -83,7 +103,7 @@ func SplitQuotedString(src string, quoteChars string, acceptEmptyArguments bool)
 	}
 
 	if escapingChar != 0 {
-		return nil, fmt.Errorf("invalid quoting, no closing `%c` char found", escapingChar)
+		return result, fmt.Errorf("invalid quoting, no closing `%c` char found", escapingChar)
 	}
 
 	return result, nil
