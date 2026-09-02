@@ -1,0 +1,15 @@
+version = 1
+
+# GitHub workflows
+[[annotations]]
+path = [
+  "boards.txt",
+  "broken.txt",
+  "build-2.json",
+  "build.json",
+  "non-utf8.properties",
+  "redbearlab_boards.txt",
+  "test.txt",
+]
+SPDX-FileCopyrightText = "Arduino s.r.l. and/or its affiliated companies"
+SPDX-License-Identifier = "GPL-2.0-or-later"
