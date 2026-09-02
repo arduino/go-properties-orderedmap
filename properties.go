@@ -47,6 +47,7 @@ package properties
 import (
 	"fmt"
 	"io/ioutil"
+	"iter"
 	"math/rand"
 	"os"
 	"reflect"
@@ -453,6 +454,17 @@ func (m *Map) Keys() []string {
 	return keys
 }
 
+// IterKeys return a range-iterator over the keys of the Map in insertion order.
+func (m *Map) IterKeys() iter.Seq[string] {
+	return func(yield func(string) bool) {
+		for _, key := range m.o {
+			if !yield(key) {
+				return
+			}
+		}
+	}
+}
+
 // Values returns an array of the values contained in the Map. Duplicated
 // values are repeated in the list accordingly.
 func (m *Map) Values() []string {
@@ -463,10 +475,34 @@ func (m *Map) Values() []string {
 	return values
 }
 
+// IterValues return a range-iterator over the values of the Map in insertion order.
+func (m *Map) IterValues() iter.Seq[string] {
+	return func(yield func(string) bool) {
+		for _, key := range m.o {
+			if !yield(m.kv[key]) {
+				return
+			}
+		}
+	}
+}
+
 // AsMap returns the underlying map[string]string. This is useful if you need to
 // for ... range but without the requirement of the ordered elements.
+//
+// Deprecated: Use IterMap() instead.
 func (m *Map) AsMap() map[string]string {
 	return m.kv
+}
+
+// IterMap return a range-iterator over the key/value pairs of the Map in insertion order.
+func (m *Map) IterMap() iter.Seq2[string, string] {
+	return func(yield func(string, string) bool) {
+		for _, key := range m.o {
+			if !yield(key, m.kv[key]) {
+				return
+			}
+		}
+	}
 }
 
 // AsSlice returns the underlying map[string]string as a slice of
