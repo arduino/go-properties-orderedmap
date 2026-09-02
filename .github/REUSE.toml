@@ -1,0 +1,15 @@
+version = 1
+
+# GitHub workflows
+[[annotations]]
+path = [
+  "dependabot.yml",
+  "workflows/check-go-dependencies-task.yml",
+  "workflows/check-license.yml",
+  "workflows/check-markdown-task.yml",
+  "workflows/check-reuse-compliance.yml",
+  "workflows/check-taskfiles.yml",
+  "workflows/sync-labels.yml",
+]
+SPDX-FileCopyrightText = "Arduino s.r.l. and/or its affiliated companies"
+SPDX-License-Identifier = "GPL-2.0-or-later"

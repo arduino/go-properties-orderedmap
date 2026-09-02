@@ -14,6 +14,13 @@ This map also keeps the insertion order when ranging through the `Keys()` method
 
 For more information read the docs [here](https://godoc.org/github.com/arduino/go-properties-orderedmap).
 
+## License
+
+```
+SPDX-FileCopyrightText: Arduino s.r.l. and/or its affiliated companies
+SPDX-License-Identifier: GPL-2.0-or-later
+```
+
 ## Security
 
 If you think you found a vulnerability or other security-related bug in this project, please read our
