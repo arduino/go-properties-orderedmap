@@ -14,6 +14,8 @@ allowed:
   - gpl-2.0 # Deprecated ID for `gpl-2.0-only`
   - gpl-2.0-or-later
   - gpl-2.0+ # Deprecated ID for `gpl-2.0-or-later`
+  - gpl-3.0-or-later
+  - gpl-3.0+ # Deprecated ID for `gpl-3.0-or-later`
   - lgpl-2.0-or-later
   - lgpl-2.0+ # Deprecated ID for `lgpl-2.0-or-later`
   - lgpl-2.1-only
