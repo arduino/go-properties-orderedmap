@@ -376,3 +376,36 @@ func TestAsSlice(t *testing.T) {
 		"key3=value3=somethingElse"},
 		properties.AsSlice())
 }
+
+func TestIterators(t *testing.T) {
+	properties := NewMap()
+	properties.Set("key1", "value1")
+	properties.Set("key2", "value2")
+	properties.Set("key3", "value3=somethingElse")
+
+	keys := []string{}
+	for key := range properties.IterKeys() {
+		keys = append(keys, key)
+	}
+	require.Equal(t, []string{"key1", "key2", "key3"}, keys)
+
+	values := []string{}
+	for value := range properties.IterValues() {
+		values = append(values, value)
+	}
+	require.Equal(t, []string{"value1", "value2", "value3=somethingElse"}, values)
+
+	type pair struct {
+		key   string
+		value string
+	}
+	pairs := []pair{}
+	for key, value := range properties.IterMap() {
+		pairs = append(pairs, pair{key, value})
+	}
+	require.Equal(t, []pair{
+		{key: "key1", value: "value1"},
+		{key: "key2", value: "value2"},
+		{key: "key3", value: "value3=somethingElse"},
+	}, pairs)
+}
