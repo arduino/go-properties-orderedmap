@@ -47,6 +47,7 @@ package properties
 import (
 	"fmt"
 	"iter"
+	"maps"
 	"math/rand"
 	"os"
 	"reflect"
@@ -537,9 +538,7 @@ func (m *Map) EqualsWithOrder(other *Map) bool {
 // target map-of-Maps.
 func MergeMapsOfProperties(target map[string]*Map, sources ...map[string]*Map) map[string]*Map {
 	for _, source := range sources {
-		for key, value := range source {
-			target[key] = value
-		}
+		maps.Copy(target, source)
 	}
 	return target
 }

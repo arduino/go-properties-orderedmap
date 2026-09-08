@@ -50,7 +50,7 @@ func SplitQuotedString(src string, quoteChars string, acceptEmptyArguments bool)
 	var escapingChar rune
 	escapedArg := ""
 
-	for _, current := range strings.Split(src, " ") {
+	for current := range strings.SplitSeq(src, " ") {
 		if escapingChar == 0 {
 			first, size := firstRune(current)
 			if !isQuote[first] {

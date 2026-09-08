@@ -18,7 +18,7 @@ func (m *Map) DebugExpandPropsInString(str string) string {
 
 func (m *Map) expandProps(str string, debug bool) string {
 	debug = debug || m.Debug
-	for i := 0; i < 10; i++ {
+	for i := range 10 {
 		if debug {
 			fmt.Printf("pass %d: %s\n", i, str)
 		}
@@ -39,10 +39,11 @@ func (m *Map) expandProps(str string, debug bool) string {
 
 // Dump returns a representation of the map in golang source format
 func (m *Map) Dump() string {
-	res := "properties.Map{\n"
+	var res strings.Builder
+	res.WriteString("properties.Map{\n")
 	for _, k := range m.o {
-		res += fmt.Sprintf("  \"%s\": \"%s\",\n", strings.Replace(k, `"`, `\"`, -1), strings.Replace(m.Get(k), `"`, `\"`, -1))
+		res.WriteString(fmt.Sprintf("  \"%s\": \"%s\",\n", strings.Replace(k, `"`, `\"`, -1), strings.Replace(m.Get(k), `"`, `\"`, -1)))
 	}
-	res += "}"
-	return res
+	res.WriteString("}")
+	return res.String()
 }
