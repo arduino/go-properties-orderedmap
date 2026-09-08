@@ -489,7 +489,7 @@ func (m *Map) IterValues() iter.Seq[string] {
 // AsMap returns the underlying map[string]string. This is useful if you need to
 // for ... range but without the requirement of the ordered elements.
 //
-// Deprecated: Use IterMap() instead.
+// Deprecated: Use IterMap() if you want to iterate without copy. Use CloneAsMap() if you want a copy of the Map as a golang map.
 func (m *Map) AsMap() map[string]string {
 	return m.kv
 }
@@ -519,6 +519,13 @@ func (m *Map) AsSlice() []string {
 func (m *Map) Clone() *Map {
 	clone := NewMap()
 	clone.Merge(m)
+	return clone
+}
+
+// CloneAsMap makes a copy of the Map and returns it as a golang map[string]string.
+func (m *Map) CloneAsMap() map[string]string {
+	clone := map[string]string{}
+	maps.Copy(clone, m.kv)
 	return clone
 }
 
