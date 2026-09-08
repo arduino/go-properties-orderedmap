@@ -46,7 +46,6 @@ package properties
 
 import (
 	"fmt"
-	"io/ioutil"
 	"iter"
 	"math/rand"
 	"os"
@@ -142,7 +141,7 @@ func LoadFromBytes(bytes []byte) (*Map, error) {
 
 // Load reads a properties file and makes a Map out of it.
 func Load(filepath string) (*Map, error) {
-	bytes, err := ioutil.ReadFile(filepath)
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading file: %s", err)
 	}
