@@ -46,8 +46,8 @@ package properties
 
 import (
 	"fmt"
-	"io/ioutil"
 	"iter"
+	"maps"
 	"math/rand"
 	"os"
 	"reflect"
@@ -142,7 +142,7 @@ func LoadFromBytes(bytes []byte) (*Map, error) {
 
 // Load reads a properties file and makes a Map out of it.
 func Load(filepath string) (*Map, error) {
-	bytes, err := ioutil.ReadFile(filepath)
+	bytes, err := os.ReadFile(filepath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading file: %s", err)
 	}
@@ -489,7 +489,7 @@ func (m *Map) IterValues() iter.Seq[string] {
 // AsMap returns the underlying map[string]string. This is useful if you need to
 // for ... range but without the requirement of the ordered elements.
 //
-// Deprecated: Use IterMap() instead.
+// Deprecated: Use IterMap() if you want to iterate without copy. Use CloneAsMap() if you want a copy of the Map as a golang map.
 func (m *Map) AsMap() map[string]string {
 	return m.kv
 }
@@ -522,6 +522,13 @@ func (m *Map) Clone() *Map {
 	return clone
 }
 
+// CloneAsMap makes a copy of the Map and returns it as a golang map[string]string.
+func (m *Map) CloneAsMap() map[string]string {
+	clone := map[string]string{}
+	maps.Copy(clone, m.kv)
+	return clone
+}
+
 // Equals returns true if the current Map contains the same key/value pairs of
 // the Map passed as argument, the order of insertion does not matter.
 func (m *Map) Equals(other *Map) bool {
@@ -538,9 +545,7 @@ func (m *Map) EqualsWithOrder(other *Map) bool {
 // target map-of-Maps.
 func MergeMapsOfProperties(target map[string]*Map, sources ...map[string]*Map) map[string]*Map {
 	for _, source := range sources {
-		for key, value := range source {
-			target[key] = value
-		}
+		maps.Copy(target, source)
 	}
 	return target
 }
